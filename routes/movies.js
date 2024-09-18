@@ -1,14 +1,16 @@
 import { Router } from 'express'
 import { MovieController } from '../controllers/movies.js'
+import { validateMovieMiddleware, validatePartialMovieMiddleware } from '../middlewares/validateMovieMiddleware.js'
 
-export const movieRouter = Router()
+export const createMovieRouter = ({ movieModel }) => {
+  const movieRouter = Router()
+  const movieController = new MovieController({ movieModel })
 
-movieRouter.get('/movies', MovieController.getAll)
+  movieRouter.get('/', movieController.getAll)
+  movieRouter.get('/:id', movieController.getById)
+  movieRouter.post('/', validateMovieMiddleware({ movieModel }), movieController.create)
+  movieRouter.patch('/:id', validatePartialMovieMiddleware({ movieModel }), movieController.update)
+  movieRouter.delete('/:id', movieController.delete)
 
-movieRouter.get('/movies/:id', MovieController.getById)
-
-movieRouter.post('/movies', MovieController.create)
-
-movieRouter.patch('/movies/:id', MovieController.update)
-
-movieRouter.delete('/movies/:id', MovieController.delete)
+  return movieRouter
+}

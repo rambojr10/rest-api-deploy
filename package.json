@@ -4,8 +4,7 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "node --watch app.js",
+    "start:local": "node --watch server-with-local-file.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
