@@ -3,16 +3,15 @@
 // const require = createRequire(import.meta.url)
 // export const readJson = path => require(path)
 
-import { promises as fs } from 'fs'
-import path from 'path'
+import { promises as fs } from 'node:fs'
+import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'url'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export const readJson = async (relativePath) => {
   try {
-    const filePath = path.join(__dirname, relativePath)
+    const filePath = resolve(__dirname, relativePath)
     const data = await fs.readFile(filePath, 'utf-8')
     return JSON.parse(data)
   } catch (err) {
